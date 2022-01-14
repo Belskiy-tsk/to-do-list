@@ -40,6 +40,9 @@ function itemRender(key, text, itemStatus) {
   checkboxIcon.name = "done";
   checkboxIcon.id = `${key}`;
   checkboxIcon.className = "custom-checkbox";
+  if (itemStatus){
+    checkboxIcon.setAttribute('checked', 'true');
+  }
 
   let labelCheckbox = document.createElement("label");
   labelCheckbox.setAttribute("for", `${key}`);
@@ -60,7 +63,7 @@ function itemRender(key, text, itemStatus) {
   divChid.append(trashIcon);
   divChid.append(labelTrash);
   items.append(divParent);
-  a;
+
 }
 
 function viewAllItems() {
@@ -81,7 +84,12 @@ items.addEventListener("change", (e) => {
   localStorage.setItem(`${e.target.id}`, JSON.stringify(revievedItem));
 });
 
-// items.addEventListener("click", (e) => {
-//   let deleteItem = e.target;
-//   localStorage.removeItem(deleteItem.id);
-// });
+items.addEventListener("click", (e) => {
+  if (e.target.attributes.for.textContent=='custom__button__delete')
+  {
+    // localStorage.removeItem(e.target.id)
+  console.log(e)}
+});
+
+
+
