@@ -2,17 +2,16 @@ let items = document.querySelector(".item__list");
 let text = document.querySelector(".creator__text");
 let submit = document.querySelector(".submit");
 
-viewAllItems();
-
 submit.addEventListener("click", () => {
   if (text.value) {
     let token = localStorage.length;
     let content = text.value;
-    console.log(content);
     addItem(token, content);
     text.value = "";
   }
 });
+
+viewAllItems();
 
 function addItem(key, text, checkboxStatus) {
   let toDoItem = {
@@ -54,7 +53,7 @@ function itemRender(key, text, itemStatus) {
 
   let labelTrash = document.createElement("label");
   labelTrash.id = `${key}`;
-  labelTrash.setAttribute("for", "custom__button__delete");
+  labelTrash.className="delete";
 
   divParent.append(pItem);
   divParent.append(divChid);
@@ -78,18 +77,22 @@ function viewAllItems() {
 
 items.addEventListener("change", (e) => {
   let checkbox = e.target;
-  let jsonItemToString = localStorage.getItem(`${e.target.id}`);
+  let jsonItemToString = localStorage.getItem(`${parseInt(e.target.id)}`);
   let revievedItem = JSON.parse(jsonItemToString);
   revievedItem.checkboxStatus = checkbox.checked;
-  localStorage.setItem(`${e.target.id}`, JSON.stringify(revievedItem));
+  localStorage.setItem(`${parseInt(e.target.id)}`, JSON.stringify(revievedItem));
 });
+
+
 
 items.addEventListener("click", (e) => {
-  if (e.target.attributes.for.textContent=='custom__button__delete')
-  {
-    // localStorage.removeItem(e.target.id)
-  console.log(e)}
+  if (e.target.className == 'delete')  {
+    for (let i = parseInt(e.target.id); i<localStorage.length-1;i++){
+        let next = i + 1;
+        let nextTargetItem = JSON.parse(localStorage.getItem(next))
+        localStorage.setItem(i, JSON.stringify(nextTargetItem))
+    } 
+  }
+  items.removeChild(items.children[localStorage.length-1])
+  localStorage.removeItem(localStorage.length-1);
 });
-
-
-
