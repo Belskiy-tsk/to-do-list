@@ -77,22 +77,23 @@ function viewAllItems() {
 
 items.addEventListener("change", (e) => {
   let checkbox = e.target;
-  let jsonItemToString = localStorage.getItem(`${parseInt(e.target.id)}`);
+  let jsonItemToString = localStorage.getItem(`${e.target.id}`);
   let revievedItem = JSON.parse(jsonItemToString);
   revievedItem.checkboxStatus = checkbox.checked;
-  localStorage.setItem(`${parseInt(e.target.id)}`, JSON.stringify(revievedItem));
+  localStorage.setItem(`${e.target.id}`, JSON.stringify(revievedItem));
 });
 
 
 
 items.addEventListener("click", (e) => {
   if (e.target.className == 'delete')  {
+    console.log(e.target)
     for (let i = parseInt(e.target.id); i<localStorage.length-1;i++){
         let next = i + 1;
         let nextTargetItem = JSON.parse(localStorage.getItem(next))
         localStorage.setItem(i, JSON.stringify(nextTargetItem))
     } 
+    items.removeChild(items.children[localStorage.length-1])
+    localStorage.removeItem(localStorage.length-1);
   }
-  items.removeChild(items.children[localStorage.length-1])
-  localStorage.removeItem(localStorage.length-1);
 });
